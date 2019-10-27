@@ -96,6 +96,13 @@ def checkDiagonals(board):
         return board[0][len(board)-1]
     return 0
 
+def getNextMove(board, playerToMove):
+    if playerToMove == 'x':
+        maximizingPlayer = True
+    else:
+        maximizingPlayer = False
+    return minimax(board, maximizingPlayer)
+
 if __name__ == "__main__":
     origin = [
         [None, None, None],
