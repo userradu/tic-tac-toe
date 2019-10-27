@@ -2,7 +2,7 @@
 
 from http.server import BaseHTTPRequestHandler,HTTPServer
 import json
-from script import getNextMove
+from ticTacToe import getNextMove
 
 class RequestHandler(BaseHTTPRequestHandler):
 

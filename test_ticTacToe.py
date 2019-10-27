@@ -1,5 +1,5 @@
 import unittest
-import script as ticTacToe
+import ticTacToe
 
 class TestTicTacToeScript(unittest.TestCase):
 
