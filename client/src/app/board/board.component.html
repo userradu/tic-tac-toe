@@ -1,0 +1,8 @@
+<table>
+  <tr *ngFor="let row of boardState; let i = index">
+    <td *ngFor="let symbol of row; let j = index" (click)="onCellClicked(i, j)">
+      <app-x-symbol *ngIf="symbol == 'x'"></app-x-symbol>
+      <app-o-symbol *ngIf="symbol == 'o'"></app-o-symbol>
+    </td>
+  </tr>
+</table>
