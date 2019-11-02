@@ -2,6 +2,8 @@ import { TestBed, async, ComponentFixture } from "@angular/core/testing";
 import { AppComponent } from "./app.component";
 import { Component, Input, Output, EventEmitter } from "@angular/core";
 import { By } from "@angular/platform-browser";
+import { TicTacToeService } from "./ticTacToe.service";
+import { of } from "rxjs";
 
 @Component({ selector: "app-board", template: "" })
 class BoardStubComponent {
@@ -13,10 +15,14 @@ class BoardStubComponent {
 describe("AppComponent", () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
+  const ticTacToeService = jasmine.createSpyObj("TicTacToeService", [
+    "getComputerMove"
+  ]);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [AppComponent, BoardStubComponent]
+      declarations: [AppComponent, BoardStubComponent],
+      providers: [{ provide: TicTacToeService, useValue: ticTacToeService }]
     }).compileComponents();
   }));
 
@@ -128,5 +134,94 @@ describe("AppComponent", () => {
     fixture.nativeElement.querySelector(".restart-btn").click();
 
     expect(component.boardState).toEqual(initialValues);
+  });
+
+  it("should make a request to the server when cellClicked event is emitted", () => {
+    const initialValues = [
+      [null, null, null],
+      [null, null, null],
+      [null, null, null]
+    ];
+
+    component.boardState = initialValues;
+
+    fixture.detectChanges();
+
+    const boardDebugElement = fixture.debugElement.query(
+      By.directive(BoardStubComponent)
+    );
+
+    const boardComponentInstance = boardDebugElement.injector.get(
+      BoardStubComponent
+    );
+
+    boardComponentInstance.cellClicked.emit({ row: 0, col: 0 });
+
+    expect(ticTacToeService.getComputerMove).toHaveBeenCalled();
+  });
+
+  it("should make a request to the server with the correct data", () => {
+    const initialValues = [
+      [null, null, null],
+      [null, null, null],
+      [null, null, null]
+    ];
+
+    component.boardState = initialValues;
+
+    fixture.detectChanges();
+
+    const boardDebugElement = fixture.debugElement.query(
+      By.directive(BoardStubComponent)
+    );
+
+    const boardComponentInstance = boardDebugElement.injector.get(
+      BoardStubComponent
+    );
+
+    boardComponentInstance.cellClicked.emit({ row: 0, col: 0 });
+
+    const updatedBoard = [
+      ["x", null, null],
+      [null, null, null],
+      [null, null, null]
+    ];
+
+    expect(ticTacToeService.getComputerMove).toHaveBeenCalledWith({
+      board: updatedBoard,
+      playerToMove: "o"
+    });
+  });
+
+  it("should update the board after getting the server response", () => {
+    const initialValues = [
+      [null, null, null],
+      [null, null, null],
+      [null, null, null]
+    ];
+
+    component.boardState = initialValues;
+
+    fixture.detectChanges();
+
+    const boardDebugElement = fixture.debugElement.query(
+      By.directive(BoardStubComponent)
+    );
+
+    const boardComponentInstance = boardDebugElement.injector.get(
+      BoardStubComponent
+    );
+
+    const serverResponse = [
+      ["x", null, null],
+      [null, "o", null],
+      [null, null, null]
+    ];
+
+    ticTacToeService.getComputerMove.and.returnValue(of(serverResponse));
+
+    boardComponentInstance.cellClicked.emit({ row: 0, col: 0 });
+
+    expect(component.boardState).toEqual(serverResponse);
   });
 });

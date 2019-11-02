@@ -33,7 +33,7 @@ export class AppComponent implements OnInit {
     this.boardState[position.row][position.col] = this.humanPlayerSymbol;
     const data = {
       board: this.boardState,
-      playerToMove: this.humanPlayerSymbol === "x" ? "0" : "x"
+      playerToMove: this.humanPlayerSymbol === "x" ? "o" : "x"
     };
 
     this.ticTacToeService.getComputerMove(data).subscribe(res => {
