@@ -15,6 +15,8 @@ export class BoardComponent implements OnInit {
   ngOnInit() {}
 
   onCellClicked(row: number, col: number) {
-    this.cellClicked.emit({ row: row, col: col });
+    if (this.boardState[row][col] === null) {
+      this.cellClicked.emit({ row: row, col: col });
+    }
   }
 }
