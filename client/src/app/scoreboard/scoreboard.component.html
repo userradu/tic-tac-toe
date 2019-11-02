@@ -1,0 +1,17 @@
+<div class="wrapper clearfix">
+  <div class="player-section">
+    <app-x-symbol *ngIf="humanPlayerSymbol == 'x'"></app-x-symbol>
+    <app-o-symbol *ngIf="humanPlayerSymbol == 'o'"></app-o-symbol>
+    <div class="title player-{{ humanPlayerSymbol }}">Player</div>
+  </div>
+
+  <div class="score">{{ xNumberOfWins + ":" + oNumberOfWins }}</div>
+
+  <div class="computer-section">
+    <app-x-symbol *ngIf="humanPlayerSymbol == 'o'"></app-x-symbol>
+    <app-o-symbol *ngIf="humanPlayerSymbol == 'x'"></app-o-symbol>
+    <div class="title player-{{ humanPlayerSymbol == 'x' ? 'o' : 'x' }}">
+      Computer
+    </div>
+  </div>
+</div>

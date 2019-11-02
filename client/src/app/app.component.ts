@@ -1,5 +1,6 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { TicTacToeService } from "./ticTacToe.service";
+import { ScoreboardComponent } from "./scoreboard/scoreboard.component";
 
 @Component({
   selector: "app-root",
@@ -7,6 +8,9 @@ import { TicTacToeService } from "./ticTacToe.service";
   styleUrls: ["./app.component.css"]
 })
 export class AppComponent implements OnInit {
+  @ViewChild(ScoreboardComponent)
+  private scoreBoardComponent: ScoreboardComponent;
+
   public humanPlayerSymbol = "x";
   public boardState;
 
@@ -29,16 +33,33 @@ export class AppComponent implements OnInit {
     this.boardState = values;
   }
 
+  isGameOver() {
+    const state = this.ticTacToeService.getGameState(this.boardState);
+
+    if (state !== "in progress") {
+      if (state !== "draw") {
+        this.scoreBoardComponent.increasePlayerScore(state);
+      }
+      return true;
+    }
+
+    return false;
+  }
+
   onCellClicked(position: any) {
     this.boardState[position.row][position.col] = this.humanPlayerSymbol;
-    const data = {
-      board: this.boardState,
-      playerToMove: this.humanPlayerSymbol === "x" ? "o" : "x"
-    };
 
-    this.ticTacToeService.getComputerMove(data).subscribe(res => {
-      this.boardState = res;
-    });
+    if (!this.isGameOver()) {
+      const data = {
+        board: this.boardState,
+        playerToMove: this.humanPlayerSymbol === "x" ? "o" : "x"
+      };
+
+      this.ticTacToeService.getComputerMove(data).subscribe(res => {
+        this.boardState = res;
+        this.isGameOver();
+      });
+    }
   }
 
   restartGame() {

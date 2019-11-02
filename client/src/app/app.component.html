@@ -1,4 +1,6 @@
 <div class="game-wrapper">
+  <app-scoreboard [humanPlayerSymbol]="humanPlayerSymbol"></app-scoreboard>
+
   <app-board
     [humanPlayerSymbol]="humanPlayerSymbol"
     [boardState]="boardState"
@@ -8,7 +10,7 @@
 
   <div class="buttons-section">
     <button type="button" class="restart-btn" (click)="restartGame()">
-      Restart
+      Reset board
     </button>
     <button type="button" class="select-player-btn">Select Player</button>
   </div>

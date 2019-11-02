@@ -1,0 +1,44 @@
+.wrapper {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.player-section,
+.computer-section {
+  display: inline-block;
+}
+
+.player-section {
+  float: left;
+}
+
+.computer-section {
+  float: right;
+}
+
+.title {
+  font-family: Roboto;
+  font-size: 20px;
+}
+
+.title.player-x {
+  color: #4ec3e2;
+}
+
+.title.player-o {
+  color: #e95150;
+}
+
+.score {
+  display: inline-block;
+  font-family: Roboto;
+  font-size: 70px;
+  color: #d69b6d;
+  vertical-align: top;
+}
