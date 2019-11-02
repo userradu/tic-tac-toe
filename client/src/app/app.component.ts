@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { TicTacToeService } from "./ticTacToe.service";
 
 @Component({
   selector: "app-root",
@@ -7,23 +8,40 @@ import { Component, OnInit } from "@angular/core";
 })
 export class AppComponent implements OnInit {
   public humanPlayerSymbol = "x";
-  public boardState = [];
+  public boardState;
+
+  constructor(private ticTacToeService: TicTacToeService) {}
 
   ngOnInit() {
     this.createInitialState();
   }
 
   private createInitialState() {
+    const values = [];
     for (let i = 0; i < 3; i++) {
       const row = [];
       for (let j = 0; j < 3; j++) {
         row.push(null);
       }
-      this.boardState.push(row);
+      values.push(row);
     }
+
+    this.boardState = values;
   }
 
   onCellClicked(position: any) {
     this.boardState[position.row][position.col] = this.humanPlayerSymbol;
+    const data = {
+      board: this.boardState,
+      playerToMove: this.humanPlayerSymbol === "x" ? "0" : "x"
+    };
+
+    this.ticTacToeService.getComputerMove(data).subscribe(res => {
+      this.boardState = res;
+    });
+  }
+
+  restartGame() {
+    this.createInitialState();
   }
 }

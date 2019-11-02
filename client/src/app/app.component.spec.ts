@@ -107,4 +107,26 @@ describe("AppComponent", () => {
 
     expect(component.boardState).toEqual(expectedResult);
   });
+
+  it("shoud reset the board when pressing the 'Restart' button", () => {
+    const initialValues = [
+      [null, null, null],
+      [null, null, null],
+      [null, null, null]
+    ];
+
+    const currentValues = [
+      ["x", null, null],
+      [null, "o", "x"],
+      [null, null, null]
+    ];
+
+    component.boardState = currentValues;
+
+    fixture.detectChanges();
+
+    fixture.nativeElement.querySelector(".restart-btn").click();
+
+    expect(component.boardState).toEqual(initialValues);
+  });
 });

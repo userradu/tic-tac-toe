@@ -3,3 +3,31 @@
   height: 350px;
   margin: 100px auto;
 }
+
+.buttons-section {
+  margin-top: 80px;
+}
+
+.buttons-section button {
+  color: #d69b6d;
+  background-color: #242424;
+  width: 140px;
+  height: 40px;
+  font-family: Roboto;
+  font-size: 18px;
+  border: none;
+  border-radius: 9px;
+  border: 2px solid #d69b6d;
+}
+
+.buttons-section button:hover {
+  cursor: pointer;
+}
+
+.buttons-section button:focus {
+  outline: 0;
+}
+
+.select-player-btn {
+  float: right;
+}
