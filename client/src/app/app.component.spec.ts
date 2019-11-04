@@ -4,6 +4,7 @@ import { Component, Input, Output, EventEmitter } from "@angular/core";
 import { By } from "@angular/platform-browser";
 import { TicTacToeService } from "./ticTacToe.service";
 import { of } from "rxjs";
+import { ScoreboardComponent } from "./scoreboard/scoreboard.component";
 
 @Component({ selector: "app-board", template: "" })
 class BoardStubComponent {
@@ -12,16 +13,26 @@ class BoardStubComponent {
   @Output() cellClicked = new EventEmitter<any>();
 }
 
+@Component({
+  selector: "app-scoreboard",
+  template: ""
+})
+class ScoreboardStubComponent {
+  @Input() humanPlayerSymbol: string;
+  increasePlayerScore(state: any) {}
+}
+
 describe("AppComponent", () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
   const ticTacToeService = jasmine.createSpyObj("TicTacToeService", [
-    "getComputerMove"
+    "getComputerMove",
+    "getGameState"
   ]);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [AppComponent, BoardStubComponent],
+      declarations: [AppComponent, BoardStubComponent, ScoreboardStubComponent],
       providers: [{ provide: TicTacToeService, useValue: ticTacToeService }]
     }).compileComponents();
   }));
@@ -29,6 +40,9 @@ describe("AppComponent", () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
+    component.scoreBoardComponent = TestBed.createComponent(
+      ScoreboardStubComponent
+    ).componentInstance as ScoreboardComponent;
     fixture.detectChanges();
   });
 
@@ -143,6 +157,8 @@ describe("AppComponent", () => {
       [null, null, null]
     ];
 
+    ticTacToeService.getGameState.and.returnValue("in progress");
+
     component.boardState = initialValues;
 
     fixture.detectChanges();
@@ -166,6 +182,8 @@ describe("AppComponent", () => {
       [null, null, null],
       [null, null, null]
     ];
+
+    ticTacToeService.getGameState.and.returnValue("in progress");
 
     component.boardState = initialValues;
 
@@ -223,5 +241,47 @@ describe("AppComponent", () => {
     boardComponentInstance.cellClicked.emit({ row: 0, col: 0 });
 
     expect(component.boardState).toEqual(serverResponse);
+  });
+
+  it("should contain the scoreboard component", () => {
+    const scoreBoardDebugElement = fixture.debugElement.query(
+      By.directive(ScoreboardStubComponent)
+    );
+
+    expect(scoreBoardDebugElement).toBeTruthy();
+  });
+
+  it("should pass the required data to the scoreboard component", () => {
+    const scoreBoardDebugElement = fixture.debugElement.query(
+      By.directive(ScoreboardStubComponent)
+    );
+
+    const scoreBoardComponentInstance = scoreBoardDebugElement.injector.get(
+      ScoreboardStubComponent
+    );
+
+    expect(scoreBoardComponentInstance.humanPlayerSymbol).toBeTruthy();
+  });
+
+  it("isGameOver() should return true when the game is over", () => {
+    ticTacToeService.getGameState.and.returnValue("x");
+    expect(component.isGameOver()).toBe(true);
+  });
+
+  it("isGameOver() should return false when the game is not over", () => {
+    ticTacToeService.getGameState.and.returnValue("in progress");
+    expect(component.isGameOver()).toBe(false);
+  });
+
+  it("should call scoreBoardComponent.increasePlayerScore() when the game is won by a player", () => {
+    ticTacToeService.getGameState.and.returnValue("x");
+
+    spyOn(component.scoreBoardComponent, "increasePlayerScore");
+
+    component.isGameOver();
+
+    expect(
+      component.scoreBoardComponent.increasePlayerScore
+    ).toHaveBeenCalled();
   });
 });

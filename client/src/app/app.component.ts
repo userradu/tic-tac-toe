@@ -9,7 +9,7 @@ import { ScoreboardComponent } from "./scoreboard/scoreboard.component";
 })
 export class AppComponent implements OnInit {
   @ViewChild(ScoreboardComponent)
-  private scoreBoardComponent: ScoreboardComponent;
+  public scoreBoardComponent: ScoreboardComponent;
 
   public humanPlayerSymbol = "x";
   public boardState;
