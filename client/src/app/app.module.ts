@@ -7,6 +7,7 @@ import { XSymbolComponent } from "./x-symbol/x-symbol.component";
 import { OSymbolComponent } from "./o-symbol/o-symbol.component";
 import { HttpClientModule } from "@angular/common/http";
 import { ScoreboardComponent } from "./scoreboard/scoreboard.component";
+import { DisplayGameResultComponent } from "./display-game-result/display-game-result.component";
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { ScoreboardComponent } from "./scoreboard/scoreboard.component";
     BoardComponent,
     XSymbolComponent,
     OSymbolComponent,
-    ScoreboardComponent
+    ScoreboardComponent,
+    DisplayGameResultComponent
   ],
   imports: [BrowserModule, HttpClientModule],
   providers: [],

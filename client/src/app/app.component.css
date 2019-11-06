@@ -4,6 +4,10 @@
   margin: 20px auto;
 }
 
+.board-wrapper {
+  position: relative;
+}
+
 .buttons-section {
   margin-top: 80px;
 }

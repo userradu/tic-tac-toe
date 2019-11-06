@@ -14,6 +14,15 @@ class BoardStubComponent {
 }
 
 @Component({
+  selector: "app-display-game-result",
+  template: ""
+})
+class DisplayGameResultStubComponent {
+  @Input() result: string;
+  @Output() resultMessageClicked = new EventEmitter<any>();
+}
+
+@Component({
   selector: "app-scoreboard",
   template: ""
 })
@@ -25,14 +34,29 @@ class ScoreboardStubComponent {
 describe("AppComponent", () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
+
   const ticTacToeService = jasmine.createSpyObj("TicTacToeService", [
     "getComputerMove",
-    "getGameState"
+    "getGameState",
+    "createEmptyBoard"
   ]);
+
+  const emptyState = [
+    [null, null, null],
+    [null, null, null],
+    [null, null, null]
+  ];
+
+  ticTacToeService.getComputerMove.and.returnValue(of(emptyState));
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [AppComponent, BoardStubComponent, ScoreboardStubComponent],
+      declarations: [
+        AppComponent,
+        BoardStubComponent,
+        DisplayGameResultStubComponent,
+        ScoreboardStubComponent
+      ],
       providers: [{ provide: TicTacToeService, useValue: ticTacToeService }]
     }).compileComponents();
   }));
@@ -44,6 +68,10 @@ describe("AppComponent", () => {
       ScoreboardStubComponent
     ).componentInstance as ScoreboardComponent;
     fixture.detectChanges();
+
+    const state = [[null, null, null], [null, null, null], [null, null, null]];
+
+    ticTacToeService.createEmptyBoard.and.returnValue(state);
   });
 
   it("should create the app", () => {
@@ -60,6 +88,7 @@ describe("AppComponent", () => {
       [null, null, null],
       [null, null, null]
     ];
+
     expect(component.boardState).toEqual(expectedResult);
   });
 
@@ -128,12 +157,14 @@ describe("AppComponent", () => {
     expect(component.boardState).toEqual(expectedResult);
   });
 
-  it("shoud reset the board when pressing the 'Restart' button", () => {
+  it("should reset the board when pressing the 'Restart' button", () => {
     const initialValues = [
       [null, null, null],
       [null, null, null],
       [null, null, null]
     ];
+
+    ticTacToeService.createEmptyBoard.and.returnValue(initialValues);
 
     const currentValues = [
       ["x", null, null],
@@ -283,5 +314,24 @@ describe("AppComponent", () => {
     expect(
       component.scoreBoardComponent.increasePlayerScore
     ).toHaveBeenCalled();
+  });
+
+  it("should hide the 'display game result' component initially", () => {
+    const displayGameResultDebugElement = fixture.debugElement.query(
+      By.directive(DisplayGameResultStubComponent)
+    );
+
+    expect(displayGameResultDebugElement).toBeFalsy();
+  });
+
+  it("should show the 'display game result' component when the game is over", () => {
+    component.gameOver = true;
+    fixture.detectChanges();
+
+    const displayGameResultDebugElement = fixture.debugElement.query(
+      By.directive(DisplayGameResultStubComponent)
+    );
+
+    expect(displayGameResultDebugElement).toBeTruthy();
   });
 });

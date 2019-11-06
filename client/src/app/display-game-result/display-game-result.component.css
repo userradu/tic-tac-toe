@@ -1,0 +1,27 @@
+.result-wrapper {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: #242424;
+  font-family: Roboto;
+  font-size: 50px;
+}
+
+.message-text {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.result-draw {
+  color: #d69b6d;
+}
+
+.result-x {
+  color: #4ec3e2;
+}
+
+.result-y {
+  color: #e95150;
+}

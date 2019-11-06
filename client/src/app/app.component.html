@@ -1,12 +1,20 @@
 <div class="game-wrapper">
   <app-scoreboard [humanPlayerSymbol]="humanPlayerSymbol"></app-scoreboard>
 
-  <app-board
-    [humanPlayerSymbol]="humanPlayerSymbol"
-    [boardState]="boardState"
-    (cellClicked)="onCellClicked($event)"
-  >
-  </app-board>
+  <div class="board-wrapper">
+    <app-board
+      [humanPlayerSymbol]="humanPlayerSymbol"
+      [boardState]="boardState"
+      (cellClicked)="onCellClicked($event)"
+    >
+    </app-board>
+
+    <app-display-game-result
+      *ngIf="gameOver"
+      [result]="gameResult"
+      (resultMessageClicked)="createInitialState()"
+    ></app-display-game-result>
+  </div>
 
   <div class="buttons-section">
     <button type="button" class="restart-btn" (click)="restartGame()">

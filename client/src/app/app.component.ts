@@ -13,6 +13,8 @@ export class AppComponent implements OnInit {
 
   public humanPlayerSymbol = "x";
   public boardState;
+  public gameOver = false;
+  public gameResult: string;
 
   constructor(private ticTacToeService: TicTacToeService) {}
 
@@ -20,17 +22,10 @@ export class AppComponent implements OnInit {
     this.createInitialState();
   }
 
-  private createInitialState() {
-    const values = [];
-    for (let i = 0; i < 3; i++) {
-      const row = [];
-      for (let j = 0; j < 3; j++) {
-        row.push(null);
-      }
-      values.push(row);
-    }
-
-    this.boardState = values;
+  public createInitialState() {
+    this.boardState = this.ticTacToeService.createEmptyBoard();
+    this.gameOver = false;
+    this.gameResult = null;
   }
 
   isGameOver() {
@@ -40,6 +35,8 @@ export class AppComponent implements OnInit {
       if (state !== "draw") {
         this.scoreBoardComponent.increasePlayerScore(state);
       }
+      this.gameOver = true;
+      this.gameResult = state;
       return true;
     }
 

@@ -15,6 +15,19 @@ export class TicTacToeService {
     return this.http.post(this.apiUrl, gameState);
   }
 
+  createEmptyBoard() {
+    const board = [];
+    for (let i = 0; i < 3; i++) {
+      const row = [];
+      for (let j = 0; j < 3; j++) {
+        row.push(null);
+      }
+      board.push(row);
+    }
+
+    return board;
+  }
+
   private checkRows(boardState) {
     for (let i = 0; i < boardState.length; i++) {
       if (
