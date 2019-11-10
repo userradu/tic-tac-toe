@@ -12,7 +12,7 @@ export class DisplayGameResultComponent implements OnInit {
   messages = {
     draw: "Draw",
     x: "X player won!",
-    y: "Y player won!"
+    o: "O player won!"
   };
 
   constructor() {}

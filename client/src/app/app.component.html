@@ -12,14 +12,21 @@
     <app-display-game-result
       *ngIf="gameOver"
       [result]="gameResult"
-      (resultMessageClicked)="createInitialState()"
+      (resultMessageClicked)="newGame()"
     ></app-display-game-result>
   </div>
 
   <div class="buttons-section">
-    <button type="button" class="restart-btn" (click)="restartGame()">
+    <button type="button" class="restart-btn" (click)="newGame()">
       Reset board
     </button>
-    <button type="button" class="select-player-btn">Select Player</button>
+    <button type="button" class="select-player-btn" (click)="selectSymbol()">
+      Select Symbol
+    </button>
   </div>
+
+  <app-select-symbol
+    *ngIf="displaySelectSymbolScreen"
+    (symbolSelected)="onSymbolSelected($event)"
+  ></app-select-symbol>
 </div>

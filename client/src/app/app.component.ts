@@ -15,6 +15,7 @@ export class AppComponent implements OnInit {
   public boardState;
   public gameOver = false;
   public gameResult: string;
+  public displaySelectSymbolScreen = false;
 
   constructor(private ticTacToeService: TicTacToeService) {}
 
@@ -47,19 +48,37 @@ export class AppComponent implements OnInit {
     this.boardState[position.row][position.col] = this.humanPlayerSymbol;
 
     if (!this.isGameOver()) {
-      const data = {
-        board: this.boardState,
-        playerToMove: this.humanPlayerSymbol === "x" ? "o" : "x"
-      };
-
-      this.ticTacToeService.getComputerMove(data).subscribe(res => {
-        this.boardState = res;
-        this.isGameOver();
-      });
+      this.getComputerMove();
     }
   }
 
-  restartGame() {
+  getComputerMove() {
+    const data = {
+      board: this.boardState,
+      playerToMove: this.humanPlayerSymbol === "x" ? "o" : "x"
+    };
+
+    this.ticTacToeService.getComputerMove(data).subscribe(res => {
+      this.boardState = res;
+      this.isGameOver();
+    });
+  }
+
+  newGame() {
     this.createInitialState();
+    if (this.humanPlayerSymbol === "o") {
+      this.getComputerMove();
+    }
+  }
+
+  selectSymbol() {
+    this.displaySelectSymbolScreen = true;
+  }
+
+  onSymbolSelected(symbol: string) {
+    this.humanPlayerSymbol = symbol;
+    this.scoreBoardComponent.resetScore();
+    this.displaySelectSymbolScreen = false;
+    this.newGame();
   }
 }

@@ -8,6 +8,7 @@ import { OSymbolComponent } from "./o-symbol/o-symbol.component";
 import { HttpClientModule } from "@angular/common/http";
 import { ScoreboardComponent } from "./scoreboard/scoreboard.component";
 import { DisplayGameResultComponent } from "./display-game-result/display-game-result.component";
+import { SelectSymbolComponent } from "./select-symbol/select-symbol.component";
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { DisplayGameResultComponent } from "./display-game-result/display-game-r
     XSymbolComponent,
     OSymbolComponent,
     ScoreboardComponent,
-    DisplayGameResultComponent
+    DisplayGameResultComponent,
+    SelectSymbolComponent
   ],
   imports: [BrowserModule, HttpClientModule],
   providers: [],

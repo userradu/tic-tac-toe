@@ -5,7 +5,13 @@
     <div class="title player-{{ humanPlayerSymbol }}">Player</div>
   </div>
 
-  <div class="score">{{ xNumberOfWins + ":" + oNumberOfWins }}</div>
+  <div *ngIf="humanPlayerSymbol === 'x'" class="score">
+    {{ xNumberOfWins + ":" + oNumberOfWins }}
+  </div>
+
+  <div *ngIf="humanPlayerSymbol === 'o'" class="score">
+    {{ oNumberOfWins + ":" + xNumberOfWins }}
+  </div>
 
   <div class="computer-section">
     <app-x-symbol *ngIf="humanPlayerSymbol == 'o'"></app-x-symbol>

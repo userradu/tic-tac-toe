@@ -22,4 +22,9 @@ export class ScoreboardComponent implements OnInit {
       this.oNumberOfWins++;
     }
   }
+
+  resetScore() {
+    this.xNumberOfWins = 0;
+    this.oNumberOfWins = 0;
+  }
 }
