@@ -14,6 +14,11 @@
   transform: translateY(-50%);
 }
 
+.message-text.draw {
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 .result-draw {
   color: #d69b6d;
 }

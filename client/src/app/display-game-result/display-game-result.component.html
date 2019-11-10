@@ -2,7 +2,7 @@
   class="result-wrapper result-{{ result }}"
   (click)="onResultMessageClicked()"
 >
-  <span class="message-text">
+  <span class="message-text {{ result }}">
     {{ messages[result] }}
   </span>
 </div>
