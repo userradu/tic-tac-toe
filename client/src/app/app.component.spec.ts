@@ -31,6 +31,14 @@ class ScoreboardStubComponent {
   increasePlayerScore(state: any) {}
 }
 
+@Component({
+  selector: "app-select-symbol",
+  template: ""
+})
+class SelectSymbolStubComponent {
+  @Output() symbolSelected = new EventEmitter<string>();
+}
+
 describe("AppComponent", () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
@@ -55,7 +63,8 @@ describe("AppComponent", () => {
         AppComponent,
         BoardStubComponent,
         DisplayGameResultStubComponent,
-        ScoreboardStubComponent
+        ScoreboardStubComponent,
+        SelectSymbolStubComponent
       ],
       providers: [{ provide: TicTacToeService, useValue: ticTacToeService }]
     }).compileComponents();

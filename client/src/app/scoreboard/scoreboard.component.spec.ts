@@ -60,7 +60,7 @@ describe("ScoreboardComponent", () => {
 
     const scoreSectionElement = fixture.nativeElement.querySelector(".score");
 
-    expect(scoreSectionElement.textContent).toBe("1:0");
+    expect(scoreSectionElement.textContent.trim()).toBe("1:0");
   });
 
   it("increasePlayerScore() should update the score for the correct player", () => {
